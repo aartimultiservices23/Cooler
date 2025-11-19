@@ -275,18 +275,75 @@ section{
     text-decoration: underline;
 }
 
-.home{
+/* Desktop Hero */
+.home {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url(../image/background.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: url("/image/desktop_hero.jpg") no-repeat center center / cover;
+    height: 70vh;
     padding-top: 17rem;
     padding-bottom: 10rem;
-    height:70vh;
-    margin-top:60px;
+    margin-top: 90px;
 }
+@media (max-width: 1440px) {
+    .home {
+        background-size: cover;
+        height: 50vh;
+        padding-top: 15rem;
+        padding-bottom: 9rem;
+    }
+}
+
+
+
+/* ----------------------- */
+/* 1024px Screens (Tablets / Small Laptops) */
+/* ----------------------- */
+@media (max-width: 1024px) {
+    .home {
+        background-size: cover;
+        height: 42vh;
+        padding-top: 13rem;
+        padding-bottom: 8rem;
+    }
+}
+
+/* All Mobile Screens (Below 768px) */
+@media (max-width: 768px) {
+    .home {
+        background-image: url("/image/mobile_responsive_hero.jpeg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;          /* full screen fit */
+        height: 90vh;                    /* mobile perfect height */
+        padding-top: 8rem;               /* adjust as needed */
+        padding-bottom: 6rem;
+        margin-top: 70px;                /* header adjust */
+    }
+}
+
+/* Extra Small Screens (Below 480px) */
+@media (max-width: 480px) {
+    .home {
+        background-size: cover;          /* ensure cover on extra small */
+        background-position: center;
+        height: 48vh;                    /* slightly smaller height */
+        padding-top: 6rem;
+        padding-bottom: 5rem;
+    }
+}
+
+/* Very Small Phones (Below 360px) */
+@media (max-width: 360px) {
+    .home {
+        height: 42vh;
+        padding-top: 5rem;
+        padding-bottom: 4rem;
+        background-position: top center; /* better framing */
+    }
+}
+
 
 .home .content{
     text-align: center;
