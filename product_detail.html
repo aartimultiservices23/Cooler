@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Detail</title>
+     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+/* ===== GLOBAL STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+/* ===== HEADER WITH NAV ===== */
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.nav-btn {
+  color: #666;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-btn:hover {
+  color: #008cff;
+}
+
+/* ===== MAIN PRODUCT SECTION LAYOUT ===== */
+.product-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px;
+  background: #fff;
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  width: 100%;
+  align-items: start;
+}
+
+/* ===== LEFT COLUMN: IMAGES ===== */
+.product-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.main-image-wrapper {
+  background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  margin-top: 30px;
+}
+
+.main-image-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.main-image {
+  max-width: 85%;
+  max-height: 85%;
+  display: block;
+  object-fit: contain;
+}
+
+.thumbnail-gallery {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.thumbnail {
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.thumbnail:hover {
+  border-color: #999;
+  transform: scale(1.05);
+}
+
+.thumbnail.active {
+  border-color: #008cff;
+  box-shadow: 0 0 12px rgba(231, 76, 60, 0.2);
+}
+
+/* ===== RIGHT COLUMN: DETAILS ===== */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+/* Product Name */
+.product-name {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    margin-top: 50px;
+}
+
+/* Price and Status */
+.price-section {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #008cff;
+}
+
+.stock-status {
+  color: #27ae60;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Features List */
+.features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.features-list li {
+  font-size: 1.5rem;
+  color: #555;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.features-list li::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #008cff;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+/* Cart Section */
+.cart-section {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.quantity-selector {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.quantity-selector:hover, .quantity-selector:focus-within {
+  border-color: #999;
+}
+
+.qty-btn {
+  width: 42px;
+  height: 42px;
+  background: #f8f8f8;
+  border: none;
+  font-size: 1.8rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-btn:hover {
+  background: #e5e5e5;
+  color: #008cff;
+}
+
+.qty-btn:active {
+  background: #d5d5d5;
+}
+
+.qty-input {
+  width: 50px;
+  height: 42px;
+  text-align: center;
+  border: none;
+  background: #fff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.qty-input:focus {
+  outline: none;
+}
+
+.add-to-cart-btn {
+  padding: 12px 42px;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 1.3rem;
+  border-radius: 6px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  flex: 1;
+  max-width: 250px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 12px rgba(26, 26, 26, 0.15);
+}
+
+.add-to-cart-btn:hover {
+  background: #008cff;
+  box-shadow: 0 4px 16px rgba(231, 76, 60, 0.25);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.98);
+}
+
+/* Wishlist/Compare Links */
+.action-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.95rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fafbfc;
+  padding: 14px 16px;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.action-links:hover {
+  border-color: #d5d5d5;
+  background: #f5f5f5;
+}
+
+.action-link {
+  color: #008cff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-link:hover {
+  color: #008cff;
+}
+
+/* Meta Section */
+.meta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+  padding: 8px 0;
+}
+
+.meta-section p {
+  margin: 0;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.meta-section strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.category-link, .tags-list {
+  color: #008cff;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.category-link:hover, .tags-list:hover {
+  color: #008cff;
+  text-decoration: underline;
+}
+
+/* Shipping badge */
+.shipping-badge {
+  font-size: 1.1rem;
+  color: #666;
+  font-style: italic;
+  padding: 8px 0;
+  font-weight: 500;
+}
+
+/* ===== DESCRIPTION SECTION ===== */
+.description-section {
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  padding: 50px 20px;
+  margin-top: 40px;
+}
+
+.description-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #008cff;
+  display: inline-block;
+  letter-spacing: -0.3px;
+}
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.specs-table tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.specs-table tr:last-child {
+  border-bottom: none;
+}
+
+.spec-label {
+  background: #f5f5f5;
+  font-weight: 700;
+  padding: 16px 20px;
+  width: 40%;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+
+.spec-value {
+  padding: 16px 20px;
+  color: #555;
+  font-size: 1.5rem;
+  background: #fff;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 1024px) {
+  .product-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .product-name {
+    font-size: 1.7rem;
+  }
+
+  .price {
+    font-size: 1.6rem;
+  }
+
+  .main-image-wrapper {
+    aspect-ratio: 1;
+    max-width: 450px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .thumbnail-gallery {
+    justify-content: center;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .product-images {
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-section {
+    padding: 30px 16px;
+  }
+
+  .product-container {
+    gap: 30px;
+    padding: 0;
+  }
+
+  .product-name {
+    font-size: 1.5rem;
+  }
+
+  .price {
+    font-size: 1.4rem;
+  }
+
+  .features-list {
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .features-list li {
+    font-size: 0.9rem;
+  }
+
+  .cart-section {
+    gap: 10px;
+  }
+
+  .add-to-cart-btn {
+    max-width: 100%;
+    padding: 11px 30px;
+    font-size: 0.9rem;
+  }
+
+  .quantity-selector {
+    flex-shrink: 0;
+  }
+
+  .qty-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 2rem;
+  }
+
+  .qty-input {
+    width: 45px;
+    height: 38px;
+    font-size: 2rem;
+  }
+
+  .action-links {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .action-link {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .meta-section {
+    font-size: 0.85rem;
+    gap: 6px;
+  }
+
+  .shipping-badge {
+    font-size: 0.85rem;
+  }
+
+  .description-section {
+    padding: 30px 16px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .spec-label {
+    width: 45%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .spec-value {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .thumbnail {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-section {
+    padding: 20px 12px;
+  }
+
+  .product-name {
+    font-size: 1.3rem;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  .price-section {
+    gap: 12px;
+  }
+
+  .stock-status {
+    font-size: 0.85rem;
+  }
+
+  .features-list {
+    gap: 6px;
+    padding: 10px 0;
+  }
+
+  .features-list li {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+
+  .cart-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .quantity-selector {
+    width: 100%;
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .action-links {
+    flex-direction: column;
+  }
+
+  .action-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .meta-section {
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+
+  .shipping-badge {
+    font-size: 0.8rem;
+  }
+
+  .thumbnail {
+    width: 65px;
+    height: 65px;
+  }
+
+  .specs-table {
+    font-size: 0.9rem;
+  }
+
+  .spec-label {
+    width: 50%;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .spec-value {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .description-section {
+    padding: 20px 12px;
+    margin-top: 20px;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-details {
+  animation: fadeIn 0.5s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body{
+    background:#eee;
+}
+
+.header{
+    position: fixed;
+    top:0; left:0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0rem 9%;
+    background:#fff;
+    box-shadow: var(--box-shadow);
+}
+
+.logo img{
+    height:62px;
+    width: 115px;
+    margin-top: 8px;
+}
+
+.logo {
+    height:77px;
+    width: 140px;
+}
+
+.header .logo i{
+    color:var(--orange);
+}
+
+.header .navbar a{
+    font-size: 1.7rem;
+    margin:0 1rem;
+    color:var(--black);
+}
+
+.header .navbar a:hover{
+    color:var(--orange);
+}
+
+.header .icons div{
+    height: 4.5rem;
+    width: 4.5rem;
+    line-height: 4.5rem;
+    border-radius: .5rem;
+    background: #eee;
+    color:var(--black);
+    font-size: 2rem;
+    margin-left: .3rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.header .icons div:hover{
+    background: var(--orange);
+    color:#fff;
+}
+
+#menu-btn{
+    display: none;
+}
+
+.header .search-form{
+    position: absolute;
+    top:110%; right:-110%;
+    width: 50rem;
+    height:5rem;
+    background: #fff;
+    border-radius: .5rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+}
+
+.header .search-form.active{
+    right:2rem;
+    transition: .4s linear;
+}
+
+.header .search-form input{
+    height:100%;
+    width:100%;
+    background: none;
+    text-transform: none;
+    font-size: 1.6rem;
+    color:var(--black);
+    padding:0 1.5rem;
+}
+
+.header .search-form label{
+    font-size: 2.2rem;
+    padding-right: 1.5rem;
+    color:var(--black);
+    cursor: pointer;
+}
+
+.header .search-form label:hover{
+    color:var(--orange);
+}
+
+.header .shopping-cart{
+    position: absolute;
+    top:110%; right:-110%;
+    padding:1rem;
+    border-radius: .5rem;
+    box-shadow: var(--box-shadow);
+    width:35rem;
+    background: #fff;
+}
+
+.header .shopping-cart.active{
+    right:2rem;
+    transition: .4s linear;
+}
+
+.header .shopping-cart .box{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+    position: relative;
+    margin:1rem 0;
+}
+
+.header .shopping-cart .box img{
+    height:10rem;
+}
+
+.header .shopping-cart .box .fa-trash{
+    font-size: 2rem;
+    position: absolute;
+    top:50%; right:2rem;
+    cursor: pointer;
+    color:var(--light-color);
+    transform: translateY(-50%);
+}
+
+.header .shopping-cart .box .fa-trash:hover{
+    color:var(--orange);
+}
+
+.header .shopping-cart .box .content h3{
+    color:var(--black);
+    font-size: 1.7rem;
+    padding-bottom: 1rem;
+}
+
+.header .shopping-cart .box .content span{
+    color:var(--light-color);
+    font-size: 1.6rem;
+}
+
+.header .shopping-cart .box .content .quantity{
+    padding-left: 1rem;
+}
+
+.header .shopping-cart .total{
+    font-size: 2.5rem;
+    padding:1rem 0;
+    text-align: center;
+    color:var(--black);
+}
+
+.header .shopping-cart .btn{
+    display: block;
+    text-align: center;
+    margin:1rem;
+}
+
+.header .login-form{
+    position: absolute;
+    top:110%; right:-110%;
+    width:35rem;
+    box-shadow: var(--box-shadow);
+    padding:2rem;
+    border-radius: .5rem;
+    background: #fff;
+    text-align: center;
+}
+
+.header .login-form.active{
+    right:2rem;
+    transition: .4s linear;
+}
+
+.header .login-form h3{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+.header .login-form .box{
+    width: 100%;
+    margin:.7rem 0;
+    background:#eee;
+    border-radius: .5rem;
+    padding:1rem;
+    font-size: 1.6rem;
+    color:var(--black);
+    text-transform: none;
+}
+
+.header .login-form p{
+    font-size: 1.4rem;
+    padding:.5rem 0;
+    color:var(--light-color);
+}
+
+.header .login-form p a{
+    color:var(--orange);
+    text-decoration: underline;
+}
+
+.btn{
+    margin-top: 1rem;
+    display: inline-block;
+    padding:.8rem 3rem;
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    border:.2rem solid var(--black);
+    color:var(--black);
+    cursor: pointer;
+    background: none;
+}
+
+.btn:hover{
+    background: var(--orange);
+    color:#fff;
+}
+
+/* media queries */
+@media (max-width:991px){
+    html{
+        font-size: 55%;
+    }
+    .header{
+        padding: 0 5px;
+    }
+}
+
+@media (max-width:768px){
+    #menu-btn{
+        display: inline-block;
+    }
+    .header .search-form{
+        width:90%;
+    }
+    .header .navbar{
+        position: absolute;
+        top:110%; right:-110%;
+        width:30rem;
+        box-shadow: var(--box-shadow);
+        border-radius: .5rem;
+        background: #fff;
+    }
+    .header .navbar.active{
+        right:2rem;
+        transition: .4s linear;
+    }
+    .header .navbar a{
+        font-size: 2rem;
+        margin:2rem 2.5rem;
+        display: block;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+body{
+    background:#eee;
+}
+
+.footer{
+    background: #fff;
+    padding: 2rem 9%;
+}
+
+.footer .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap:1.5rem;
+}
+
+.footer .box-container .box h3{
+    font-size: 2.5rem;
+    color:var(--black);
+    padding:1rem 0;
+}
+
+.footer .box-container .box h3 i{
+    color:var(--orange);
+}
+
+.footer .box-container .box .links{
+    display: block;
+    font-size: 1.5rem;
+    color:var(--light-color);
+    padding:1rem 0;
+}
+
+.footer .box-container .box .links i{
+    color:var(--orange);
+    padding-right: .5rem;
+}
+
+.footer .box-container .box .links:hover i{
+    padding-right: 2rem;
+}
+
+.footer .box-container .box p{
+    line-height: 1.8;
+    font-size: 1.5rem;
+    color:var(--light-color);
+    padding:1rem 0;
+}
+
+.footer .box-container .box .share a{
+    height:4rem;
+    width:4rem;
+    line-height:4rem;
+    border-radius: .5rem;
+    font-size: 2rem;
+    color:var(--black);
+    margin-right: .2rem;
+    background: #eee;
+    text-align: center;
+}
+
+.footer .box-container .box .share a:hover{
+    background: var(--orange);
+    color: #fff;
+}
+
+.footer .box-container .box .email{
+    width: 100%;
+    margin:.7rem 0;
+    padding:1rem;
+    border-radius: .5rem;
+    background: #eee;
+    font-size: 1.6rem;
+    color:var(--black);
+    text-transform: none;
+}
+
+.footer .box-container .box .payment-img{
+    margin-top: 2rem;
+    height: 3rem;
+    display: block;
+}
+
+.footer .credit{
+    text-align: center;
+    margin-top: 2rem;
+    padding:1rem;
+    padding-top: 2.5rem;
+    font-size: 2rem;
+    color:var(--black);
+    border-top: var(--border);
+}
+
+.footer .credit span{
+    color:var(--orange);
+}
+
+.btn{
+    margin-top: 1rem;
+    display: inline-block;
+    padding:.8rem 3rem;
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    border:.2rem solid var(--black);
+    color:var(--black);
+    cursor: pointer;
+    background: none;
+}
+
+.btn:hover{
+    background: var(--orange);
+    color:#fff;
+}
+
+/* media queries */
+@media (max-width:991px){
+    html{
+        font-size: 55%;
+    }
+    .footer{
+        padding:2rem;
+    }
+}
+
+@media (max-width:450px){
+    html{
+        font-size: 50%;
+    }
+    .footer{
+        text-align: center;
+    }
+    .footer .box-container .box .payment-img{
+        margin: 2rem auto;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+  <!-- header section starts -->
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="./image/Satnam_coolers_logo.png" alt="Satnam Logo">
+        </a>
+
+        <nav class="navbar">
+            <a href="#home">home</a>
+            <a href="#features">features</a>
+            <a href="#products">products</a>
+            <a href="#categories">categories</a>
+            <a href="#review">review</a>
+            <a href="#blogs">blogs</a>
+        </nav>
+
+        <div class="icons">
+            <div class="fas fa-bars" id="menu-btn"></div>
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <div class="fas fa-user" id="login-btn"></div>
+        </div>
+
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+
+        <div class="shopping-cart">
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-1.png" alt="">
+                <div class="content">
+                    <h3>watermelon</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-2.png" alt="">
+                <div class="content">
+                    <h3>onion</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-3.png" alt="">
+                <div class="content">
+                    <h3>chicken</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="total"> total : $19.69/- </div>
+            <a href="#" class="btn">checkout</a>
+        </div>
+
+        <form action="" class="login-form">
+            <h3>login now</h3>
+            <input type="email" placeholder="your email" class="box">
+            <input type="password" placeholder="your password" class="box">
+            <p>forget your password <a href="#">click here</a></p>
+            <p>don't have an account <a href="#">create now</a></p>
+            <input type="submit" value="login now" class="btn">
+        </form>
+    </header>
+
+
+<!-- header section ends -->
+    <!-- Main Product Section -->
+    <main class="product-section">
+        <div class="product-container">
+            <!-- Left Column - Product Images -->
+            <div class="product-images">
+                <div class="main-image-wrapper">
+                    <img src="/placeholder.svg" alt="" class="main-image" />
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="thumbnail-gallery"></div>
+            </div>
+
+            <!-- Right Column - Product Details -->
+            <div class="product-details">
+                <h1 class="product-name"></h1>
+
+                <!-- Price Section -->
+                <div class="price-section">
+                    <span class="price"></span>
+                    <span class="stock-status in-stock">● In Stock</span>
+                </div>
+
+                <!-- Features List -->
+                <ul class="features-list"></ul>
+
+                <!-- Quantity and Cart Section -->
+                <div class="cart-section">
+                    <div class="quantity-selector">
+                        <button class="qty-btn" aria-label="Decrease quantity">−</button>
+                        <input type="number" class="qty-input" value="1" min="1"/>
+                        <button class="qty-btn" aria-label="Increase quantity">+</button>
+                    </div>
+                    <button class="add-to-cart-btn">ADD TO CART</button>
+                </div>
+
+                <!-- Wishlist and Compare -->
+                
+
+                <!-- Category and Tags -->
+                <div class="meta-section">
+                    <p><strong>Category:</strong> <span class="category-link"></span></p>
+                    <p><strong>Tags:</strong> <span class="tags-list"></span></p>
+                </div>
+
+                <!-- Free Shipping Badge -->
+                <div class="shipping-badge">*Free Shipping</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Description Section -->
+    <section class="description-section">
+        <div class="description-container">
+            <h2 class="section-title">Description</h2>
+
+            <!-- Specifications Table -->
+            <table class="specs-table">
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cooler Features Section</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    body{
+        background:#f7f9ff;
+    }
+
+    .features-section{
+        width:90%;
+        max-width:1200px;
+        margin:auto;
+        padding:50px 0;
+        display:flex;
+        justify-content:space-between;
+        gap:20px;
+        flex-wrap:wrap;
+    }
+
+    .feature-box{
+        flex:1 1 250px;
+        background:#f7f9ff;
+        padding:30px 20px;
+        border-radius:18px;
+        text-align:center;
+        
+        cursor:pointer;
+    }
+
+    
+
+    .feature-box img{
+        width:80px;
+        height:80px;
+        margin-bottom:20px;
+        transition:0.3s;
+        filter:drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+    }
+
+    
+    .feature-box h3{
+        font-size:20px;
+        color:#1f2c45;
+        margin-bottom:10px;
+        letter-spacing:0.5px;
+    }
+
+    .feature-box p{
+        font-size:15px;
+        color:#444;
+        line-height:23px;
+    }
+
+    /* Small screens */
+    @media(max-width:768px){
+        .features-section{
+            flex-direction:column;
+            align-items:center;
+        }
+        .feature-box{
+            width:90%;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+<section class="features-section">
+
+    <div class="feature-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3262/3262926.png" alt="">
+        <h3>Fast Cooling</h3>
+        <p>Feel instant cool air with our powerful turbo blower.</p>
+    </div>
+
+    <div class="feature-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="">
+        <h3>Low Electricity Use</h3>
+        <p>Consumes up to 70% less power than ACs. Save money daily.</p>
+    </div>
+
+    <div class="feature-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/891/891399.png" alt="">
+        <h3>Heavy Body Material</h3>
+        <p>Designed with durable & rust-proof metal body for long life.</p>
+    </div>
+
+    <div class="feature-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/992/992700.png" alt="">
+        <h3>100% Fresh Air</h3>
+        <p>Natural, healthy cooling with high-quality honeycomb pads.</p>
+    </div>
+
+</section>
+
+<script>
+    // Simple JS hover sound or effect (optional)
+    const boxes = document.querySelectorAll(".feature-box");
+
+    boxes.forEach(box=>{
+        box.addEventListener("mouseenter", ()=>{
+            box.style.background = "#eef3ff";
+        });
+
+        box.addEventListener("mouseleave", ()=>{
+            box.style.background = "#fff";
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+     <!-- footer section starts -->
+    <section class="footer">
+        <div class="box-container">
+            <div class="box">
+                <img src="./image/Satnam_coolers_logo.png" class="logo">
+                <p></p>
+                <div class="share">
+                    <a href="#" class="fab fa-facebook-f"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <a href="#" class="links"> <i class="fas fa-phone"></i> +91 8853455765 </a>
+                <a href="#" class="links"> <i class="fas fa-phone"></i> +91 9140026484 </a>
+                <a href="#" class="links"> <i class="fas fa-envelope"></i> kapilyadav001144@gmail.com </a>
+                <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> Greater Noida, india - 201306 </a>
+            </div>
+
+            <div class="box">
+                <h3>quick links</h3>
+                <a href="#" class="links"> <i class="fas fa-arrow-right"></i> home </a>
+                <a href="#" class="links"> <i class="fas fa-arrow-right"></i> features </a>
+                <a href="#" class="links"> <i class="fas fa-arrow-right"></i> products </a>
+                <a href="#" class="links"> <i class="fas fa-arrow-right"></i> categories </a>
+            </div>
+
+            <div class="box">
+                <h3>newsletter</h3>
+                <p>subscribe for latest updates</p>
+                <input type="email" placeholder="your email" class="email">
+                <input type="submit" value="subscribe" class="btn">
+                <img src="image/payment.png" class="payment-img" alt="">
+            </div>
+        </div>
+    </section>
+    <!-- footer section ends -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script>
+        // ... existing code ...
+       const products = [
+  {
+    id: "1",
+    name: "METAL COOL 350N",
+    images: [
+      "image/cooler1.png",
+      "https://cdn.accentuate.io/605785456944/-1695035269432/3-(1)-v1701346119711.png?800x800"
+    ],
+    price: "₹14,500.00",
+    stock: "In Stock",
+    features: [
+      "Room cooler of cooling capacity 350Sft",
+      "Galvanized steel body with powder coating",
+      "Joint-less water tank",
+      "With Auto air swing diverter",
+      "With movable trolley as standard",
+      "With Breathe Easy woodwool cooling pads"
+    ],
+    category: "Satnam Coolers",
+    tags: "Buy Satnam Cooler Online, METAL COOL 350 S, Satnam Coolers",
+    specs: [
+      { label: "Cooling Capacity", value: "350 Sft" },
+      { label: "Cooling Pads", value: "Breathe Easy (Woodwool) Cooling Pads" },
+      { label: "Body Size (Inches) With Trolley", value: "45x25x21" },
+      { label: "Blade Size (Inches) Type", value: "16 Exhaust" },
+      { label: "RPM", value: "1350" }
+    ]
+  },
+  {
+    id: "2",
+    name: "METAL COOL 450X",
+    images: [
+      "image/cooler2.png",
+      "https://cdn.accentuate.io/605785456944/-1695035269432/3-(1)-v1701346119711.png?800x800"
+    ],
+    price: "₹18,000.00",
+    stock: "In Stock",
+    features: [
+      "Cooling capacity 450Sft",
+      "Galvanized steel body with anti-rust paint",
+      "Large water tank with enhanced joint-less design",
+      "Auto air swing diverter with remote control",
+      "High quality cellulose cooling pads"
+    ],
+    category: "Satnam Coolers",
+    tags: "Buy Satnam Cooler Online, METAL COOL 450X, Satnam Coolers",
+    specs: [
+      { label: "Cooling Capacity", value: "450 Sft" },
+      { label: "Cooling Pads", value: "Cellulose Cooling Pads" },
+      { label: "Body Size (Inches) With Trolley", value: "50x28x24" },
+      { label: "Blade Size (Inches) Type", value: "18 Exhaust" },
+      { label: "RPM", value: "1400" }
+    ]
+  },
+  {
+    id: "3",
+    name: "METAL COOL 550Z",
+    images: [
+      "image/cooler3.png",
+      "https://cdn.accentuate.io/605785456944/-1695035269432/3-(1)-v1701346119711.png?800x800"
+    ],
+    price: "₹21,500.00",
+    stock: "Limited Stock",
+    features: [
+      "Powerful cooling capacity for 550Sft room",
+      "Heavy duty galvanized body",
+      "Large capacity water tank with joint-less tech",
+      "Auto air swing diverter and digital control panel",
+      "Premium honeycomb cooling pads"
+    ],
+    category: "Satnam Coolers",
+    tags: "Premium Satnam Cooler, METAL COOL 550Z, Satnam Coolers",
+    specs: [
+      { label: "Cooling Capacity", value: "550 Sft" },
+      { label: "Cooling Pads", value: "Honeycomb Cooling Pads" },
+      { label: "Body Size (Inches) With Trolley", value: "55x30x25" },
+      { label: "Blade Size (Inches) Type", value: "20 Exhaust" },
+      { label: "RPM", value: "1500" }
+    ]
+  },
+  {
+    id: "4",
+    name: "METAL COOL 650X Pro",
+    images: [
+      "image/cooler4.png",
+      "https://cdn.accentuate.io/605785456944/-1695035269432/3-(1)-v1701346119711.png?800x800"
+    ],
+    price: "₹25,000.00",
+    stock: "Pre-Order",
+    features: [
+      "Highest cooling capacity in Satnam 650Sft",
+      "Rust-resistant galvanized steel body",
+      "Extra large water tank and joint-less design",
+      "Multi-directional auto air swing diverter",
+      "Advanced woodwool cooling pads for best performance"
+    ],
+    category: "Satnam Coolers",
+    tags: "New Satnam Cooler, METAL COOL 650X Pro, Satnam Coolers",
+    specs: [
+      { label: "Cooling Capacity", value: "650 Sft" },
+      { label: "Cooling Pads", value: "Advanced Woodwool Cooling Pads" },
+      { label: "Body Size (Inches) With Trolley", value: "60x32x28" },
+      { label: "Blade Size (Inches) Type", value: "22 Exhaust" },
+      { label: "RPM", value: "1600" }
+    ]
+  }
+];
+
+
+        // Get product ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get("id"); // keep as string
+const product = products.find(p => p.id === productId);
+
+        if (!product) {
+            document.body.innerHTML = "<h2>Product not found</h2>";
+        } else {
+            // Update product name
+            document.querySelector(".product-name").textContent = product.name;
+
+            // Update main product image
+            const mainImage = document.querySelector(".main-image");
+            mainImage.src = product.images[0];
+            mainImage.alt = product.name;
+
+            // Update thumbnail gallery
+            const thumbnailGallery = document.querySelector(".thumbnail-gallery");
+            thumbnailGallery.innerHTML = ""; // Clear existing thumbnails
+            product.images.forEach((imgSrc, index) => {
+                const img = document.createElement("img");
+                img.src = imgSrc;
+                img.alt = product.name + " thumbnail " + (index + 1);
+                img.classList.add("thumbnail");
+                if (index === 0) img.classList.add("active");
+                img.addEventListener("click", () => {
+                    mainImage.src = imgSrc;
+                    mainImage.alt = img.alt;
+                    document.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
+                    img.classList.add("active");
+                });
+                thumbnailGallery.appendChild(img);
+            });
+
+            // Update price
+            document.querySelector(".price").textContent = product.price;
+
+            // Update stock status
+            document.querySelector(".stock-status").textContent = `● ${product.stock}`;
+
+            // Update features list
+            const featuresList = document.querySelector(".features-list");
+            featuresList.innerHTML = "";
+            product.features.forEach(feature => {
+                const li = document.createElement("li");
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+
+            // Update category and tags
+            document.querySelector(".category-link").textContent = product.category;
+            document.querySelector(".tags-list").textContent = product.tags;
+
+            // Update specs table
+            const specsTableBody = document.querySelector(".specs-table tbody");
+            specsTableBody.innerHTML = "";
+            product.specs.forEach(spec => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="spec-label">${spec.label}</td>
+                    <td class="spec-value">${spec.value}</td>
+                `;
+                specsTableBody.appendChild(tr);
+            });
+
+            // Quantity selector logic (as you already have)
+            const qtyInput = document.querySelector('.qty-input');
+            const qtyBtns = document.querySelectorAll('.qty-btn');
+
+            qtyBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    let currentValue = parseInt(qtyInput.value);
+                    if (index === 0 && currentValue > 1) {
+                        qtyInput.value = currentValue - 1;
+                    } else if (index === 1) {
+                        qtyInput.value = currentValue + 1;
+                    }
+                });
+            });
+
+            qtyInput.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                }
+            });
+        }
+    </script>
+
+
+
+
+
+   <script>
+ let searchForm = document.querySelector('.search-form');
+let shoppingCart = document.querySelector('.shopping-cart');
+let loginForm = document.querySelector('.login-form');
+let navbar = document.querySelector('.navbar');
+
+document.querySelector('#search-btn').onclick = () =>{
+    searchForm.classList.toggle('active');
+    shoppingCart.classList.remove('active');
+    loginForm.classList.remove('active');
+    navbar.classList.remove('active');
+}
+
+document.querySelector('#cart-btn').onclick = () =>{
+    shoppingCart.classList.toggle('active');
+    searchForm.classList.remove('active');
+    loginForm.classList.remove('active');
+    navbar.classList.remove('active');
+}
+
+document.querySelector('#login-btn').onclick = () =>{
+    loginForm.classList.toggle('active');
+    searchForm.classList.remove('active');
+    shoppingCart.classList.remove('active');
+    navbar.classList.remove('active');
+}
+
+document.querySelector('#menu-btn').onclick = () =>{
+    navbar.classList.toggle('active');
+    searchForm.classList.remove('active');
+    shoppingCart.classList.remove('active');
+    loginForm.classList.remove('active');
+}
+
+window.onscroll = () =>{
+    searchForm.classList.remove('active');
+    shoppingCart.classList.remove('active');
+    loginForm.classList.remove('active');
+    navbar.classList.remove('active');
+}
+</script>
+</body>
+</html>
+
+
+
