@@ -78,6 +78,7 @@ section{
     padding:0rem 9%;
     background:#fff;
     box-shadow: var(--box-shadow);
+    height: 90px;
 }
 .logo img{
     height:62px;
@@ -691,7 +692,8 @@ section{
     }
 
     .header{
-                padding: 0 5px;
+        padding: 0 5px;
+        height: 70px;
     }
 
     section{
